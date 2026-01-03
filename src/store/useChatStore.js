@@ -141,8 +141,9 @@ export const useChatStore = create((set, get) => ({
     })
   },
   unsubscribeToMessage: () => {
-    const socket = useAuthStore.getState().socket
-    socket.off("newMessage")
-  }
+  const socket = useAuthStore.getState().socket;
+  if (!socket) return; // <-- prevent calling off on null
+  socket.off("newMessage");
+},
 
 }));
