@@ -29,6 +29,7 @@ function ChatList() {
           <div className="relative">
             <img 
               src={item.profilePic || './user.png'} 
+              crossOrigin="anonymous"
               alt={item.fullName} 
               className='w-12 h-12 rounded-full object-cover border border-gray-700' 
             />

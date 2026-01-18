@@ -67,7 +67,7 @@ function ChatMessages({ authUser, messages, selectedUser }) {
                   {timeDisplay(msg.updatedAt) || ''}
                 </time>
               </div>
-              <div className={`chat-bubble max-w-[70%] ${isMe ? 'bg-emerald-600' : 'bg-white/10'}`}>
+              <div className={`chat-bubble max-w-[80%] sm:max-w-[70%] ${isMe ? 'bg-emerald-600' : 'bg-white/10'}`}>
                 {msg.image && (
                   <img
                     src={msg.image}

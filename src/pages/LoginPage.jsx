@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Mail, Lock, LoaderIcon } from "lucide-react";
 import { useAuthStore } from "../store/useAuthStore";
+import toast from "react-hot-toast";
 
 export default function LoginPage() {
   const [loginForm, setLoginForm] = useState({
@@ -13,12 +14,12 @@ export default function LoginPage() {
     login(loginForm)
   }
   return (
-    <div className="w-screen h-screen flex items-center justify-center bg-black px-4">
-      <div className="w-full max-w-md p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl flex flex-col space-y-6">
+    <div className="w-screen min-h-[100dvh] flex items-center justify-center bg-black px-4 py-10">
+      <div className="w-full max-w-md p-6 sm:p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl flex flex-col space-y-6">
         
         {/* Header */}
         <div>
-          <h1 className="text-4xl font-extrabold text-white">Log In</h1>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-white">Log In</h1>
           <p className="text-sm text-white/60 mt-2">
             Welcome back — enter your credentials to continue.
           </p>
@@ -72,7 +73,7 @@ export default function LoginPage() {
         </form>
 
         {/* Badges */}
-        <div className="flex gap-2 pt-2 justify-center">
+        <div className="flex flex-wrap gap-2 pt-2 justify-center">
           <span className="px-3 py-1 text-xs rounded-full bg-white/10 text-white/70">Secure</span>
           <span className="px-3 py-1 text-xs rounded-full bg-white/10 text-white/70">Minimal</span>
           <span className="px-3 py-1 text-xs rounded-full bg-white/10 text-white/70">Fast</span>

@@ -17,7 +17,6 @@ function App() {
   }, [checkAuth])
 
   if (isCheckingAuth) return <PageLoader />;
-  
   return (
       <div className='min-h-screen bg-gray-950 relative flex items-center justify-center overflow-hidden'>
           <Toaster />

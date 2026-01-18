@@ -29,6 +29,7 @@ function ContactList() {
             <img 
               src={contact.profilePic || './user.png'} 
               alt={contact.fullName} 
+              crossOrigin="anonymous"
               className='w-12 h-12 rounded-full object-cover border border-gray-700' 
             />
             <span className={`absolute bottom-0 right-0 w-3 h-3

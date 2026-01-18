@@ -25,9 +25,9 @@ function ChatContaioner() {
     <LoaderIcon className="size-10 animate-spin" />
   </div>;
   return (
-    <div >
+    <div className="flex flex-col h-full">
       <ChatHeader />
-      <div className='flex-1 px-6 overflow-auto py-2 h-[calc(100vh-156px)]'>
+      <div className='flex-1 min-h-0 px-4 md:px-6 overflow-auto py-2'>
         {messages.length > 0 ? (<ChatMessages authUser={authUser} messages={messages} selectedUser={selectedUser} />): (
           <NoChatHistoryPlaceholder name={selectedUser.fullName} />
         )}

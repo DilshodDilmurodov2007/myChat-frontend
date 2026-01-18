@@ -12,7 +12,7 @@ export const useChatStore = create((set, get) => ({
   selectedUser: null,
   isUsersLoading: false,
   isMessagesLoading: false,
-  isSoundEnabled: localStorage.getItem("isSoundEnabled") === true,
+  isSoundEnabled: localStorage.getItem("isSoundEnabled") === "true",
 
   toggleSound: () => {
     localStorage.setItem("isSoundEnabled", !get().isSoundEnabled)
@@ -118,32 +118,46 @@ export const useChatStore = create((set, get) => ({
       set({ isUsersLoading: false });
     }
   },
-  subscribeToMessage: () => {
+subscribeToMessage: () => {
+  const socket = useAuthStore.getState().socket;
+  if (!socket) return;
+
+  // remove old handler if any
+  const prevHandler = get()._messageHandler;
+  if (prevHandler) socket.off("newMessage", prevHandler);
+
+  const handler = (newMessage) => {
     const { selectedUser, isSoundEnabled } = get();
     const { authUser } = useAuthStore.getState();
+    if (!selectedUser || !authUser) return;
 
-    if(!selectedUser || !authUser) return;
+    // ✅ accept messages from either direction in this chat
+    const isForThisChat =
+      (newMessage.senderId === selectedUser._id && newMessage.receiverId === authUser._id) ||
+      (newMessage.senderId === authUser._id && newMessage.receiverId === selectedUser._id);
 
-    const socket = useAuthStore.getState().socket;
-    socket.on("newMessage", (newMessage) => {
-      if(newMessage.senderId !== selectedUser._id) return;
+    if (!isForThisChat) return;
 
-      const currentMessages = get().messages
-      set({messages: [...currentMessages, newMessage]})
+    set((state) => ({ messages: [...state.messages, newMessage] }));
 
-      if(isSoundEnabled) {
-        const notificationSound = new Audio("/sound/notification.mp3")
+    if (isSoundEnabled) {
+      const notificationSound = new Audio("/sound/notification.mp3");
+      notificationSound.currentTime = 0;
+      notificationSound.play().catch(() => {});
+    }
+  };
 
-        notificationSound.currentTime = 0
-        notificationSound.play().catch((e) => console.log("Audio play failed: ", e)
-        )
-      }
-    })
-  },
-  unsubscribeToMessage: () => {
-  const socket = useAuthStore.getState().socket;
-  if (!socket) return; // <-- prevent calling off on null
-  socket.off("newMessage");
+  socket.on("newMessage", handler);
+  set({ _messageHandler: handler });
 },
+
+unsubscribeToMessage: () => {
+  const socket = useAuthStore.getState().socket;
+  const handler = get()._messageHandler;
+  if (!socket || !handler) return;
+  socket.off("newMessage", handler);
+  set({ _messageHandler: null });
+},
+
 
 }));

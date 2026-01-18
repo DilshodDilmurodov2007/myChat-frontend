@@ -74,11 +74,11 @@ function ChatInput() {
   }
 };
   return (
-    <div className="bg-transparent p-4">
-  <div className="max-w-3xl mx-auto space-y-3">
+  <div className="bg-transparent p-4">
+  <div className="w-full max-w-3xl mx-auto space-y-3">
       {/* Image preview */}
       {imagePreview && (
-        <div className="max-w-3xl mx-auto mb-3 relative w-fit">
+        <div className="w-full max-w-3xl mx-auto mb-3 relative w-fit">
           <img
             src={imagePreview}
             alt="Preview"
@@ -99,7 +99,7 @@ function ChatInput() {
       {/* Input */}
       <form
         onSubmit={handleSendMessage}
-        className="max-w-3xl mx-auto flex items-end gap-3"
+        className="w-full max-w-3xl mx-auto flex items-end gap-3"
       >
         <textarea
   ref={textareaRef}
